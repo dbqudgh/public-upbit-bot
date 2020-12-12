@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const uuidv4 = require("uuid/v4");
+const {access_key, secret_key} = require("./config/config")
 
 const payload = {
-  access_key: "cG6xxUzxavsI8deNf1sqbux5WFRk0bJKOT65uZMu",
+  access_key: access_key,
   nonce: uuidv4(),
 };
 
-const jwtToken = jwt.sign(payload, "55xASKx2Z87VU3uHX4xEy66MGXbFNWzEUWcIrbF6");
+const jwtToken = jwt.sign(payload, secret_key);
 const authorizationToken = `Bearer ${jwtToken}`;
 
 

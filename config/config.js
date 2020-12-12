@@ -14,4 +14,7 @@
 //   }
 
 
-//hellow
+module.exports = {
+    access_key: "cG6xxUzxavsI8deNf1sqbux5WFRk0bJKOT65uZMu",
+    secret_key: "55xASKx2Z87VU3uHX4xEy66MGXbFNWzEUWcIrbF6"
+}
