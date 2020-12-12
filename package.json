@@ -1,0 +1,24 @@
+{
+  "name": "upbitbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbqudgh/upbitbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dbqudgh/upbitbot/issues"
+  },
+  "homepage": "https://github.com/dbqudgh/upbitbot#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "request": "^2.88.2",
+    "uuid": "^8.3.2"
+  }
+}
