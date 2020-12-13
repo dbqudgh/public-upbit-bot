@@ -23,7 +23,7 @@
     },
     "bid_account": {
         "currency": "KRW",
-        "balance": "0.24717273",
+        "balance": "538446.7331008",
         "locked": "0.0",
         "avg_buy_price": "0",
         "avg_buy_price_modified": true,
@@ -31,7 +31,7 @@
     },
     "ask_account": {
         "currency": "BTC",
-        "balance": "0.02557155",
+        "balance": "0.0",
         "locked": "0.0",
         "avg_buy_price": "20026000",
         "avg_buy_price_modified": false,

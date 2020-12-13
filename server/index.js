@@ -23,8 +23,6 @@ request(getOrderableInformationOpstions(market), (error, response, data) => {
 
 
 
-
-
 //full account inquiry
 
 

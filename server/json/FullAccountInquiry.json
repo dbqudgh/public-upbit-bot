@@ -1,13 +1,6 @@
 [{
-    "currency": "BTC",
-    "balance": "0.02557155",
-    "locked": "0.0",
-    "avg_buy_price": "20026000",
-    "avg_buy_price_modified": false,
-    "unit_currency": "KRW"
-}, {
     "currency": "KRW",
-    "balance": "0.24717273",
+    "balance": "538446.7331008",
     "locked": "0.0",
     "avg_buy_price": "0",
     "avg_buy_price_modified": true,
