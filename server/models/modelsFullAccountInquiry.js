@@ -10,25 +10,48 @@ const {
   secret_key,
   server_url
 } = require("../config/config");
+const request = require("request")
 
-function getFullAccountInquiryOpstions() {
+
+function getFullAccountInquiry() {
 
   const payload = {
     access_key: access_key,
     nonce: uuidv4(),
   };
+
   const token = sign(payload, secret_key)
 
-  return options = {
+  const options = {
     method: "GET",
     url: server_url + "/v1/accounts",
     headers: {
       Authorization: `Bearer ${token}`
     },
   }
+
+  let fullAccountInquiry;
+
+
+  return new Promise(resolve => {
+
+    request(options, (error, response, data) => {
+      if (error) throw new Error(error)
+      // createJsonFile(data,"FullAccountInquiry.json")
+      fullAccountInquiry = data
+
+      resolve(fullAccountInquiry)
+    });
+
+
+
+  }).then(function (result) {
+    return JSON.parse(fullAccountInquiry) 
+  })
+
 }
 
-module.exports = getFullAccountInquiryOpstions
+module.exports = getFullAccountInquiry
 
 
 //full account inquiry

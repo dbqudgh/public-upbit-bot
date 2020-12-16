@@ -1,74 +1,31 @@
-const WebSocket = require('ws');
-const sendTelegramMessage = require("./models/modelsSendTelegramMessage")
+//models
+const createJsonFile = require("./models/modelsCreateJsonFile");
+const getFullAccountInquiry = require("./models/modelsFullAccountInquiry")
+const getOrderableInformation = require("./models/modelsSorderableInformation")
+const getAllKrwMarketList = require("./models/modelsGetListMarkets");
+
+const market = 'KRW-BTC'
 
 
-let trades = [];
+async function main(){
+
+  const krwMarketList =  await getAllKrwMarketList(); // 모든 마켓 정보 가저옴
+  const orderableInformationBTC = await getOrderableInformation(market); //마켓 정보 조회
+  const fullAccountInquiry = await getFullAccountInquiry(); //주문정보 조회
+  // console.log(krwMarketList)
+  // console.log(orderableInformationBTC)
 
 
-function tradeServerConnect(codes) {
-
-    var ws = new WebSocket('wss://api.upbit.com/websocket/v1');
-
-    ws.on('open', () => {
-        console.log('trade websocket is connected');
-        ws.send('[{"ticket":"test"},{"type":"ticker","codes":["KRW-BTC"]}]');
-    })
-
-    ws.on('close', () => {
-        console.log('trade websocket is closed');
-        console.log('trade 재접속');
-        tradeServerConnect(codes)
-    })
-
-    ws.on('message', (data) => {
-        try {
-            const str = data.toString('utf-8')
-
-            const json = JSON.parse(str)
-            if (trades.length > 0) { //기존데이터가 있다면
-                const newTradePrice = json.trade_price;
-                const oldTradePrice = trades[0].trade_price;
-
-                const increase = (oldTradePrice - newTradePrice) / oldTradePrice;
-
-                if (increase > 0.0001) {
-                    const textData = `증가량:${increase}`
-                    console.log(textData)
-                    sendTelegramMessage(textData)
-                }
-                // trades[0] 
-                // json
-                trades = [];
-            }
-            trades.push(json)
-
-        } catch (e) {
-            console.log(e)
-        }
-    })
-}
+  console.log(fullAccountInquiry[0])
 
 
-//기존 데이터 그리고 새로운 데이터 비교 하여 전일대비 가격이 2퍼센트 올랐다면
+}main()
 
-//시작값 - 비교할값 / 시작값
 
-//그 코인을 호가로 주문 그리고 만약 산 가격보다 2퍼센트 올랐다면 호가로 바로 손절
-
-//만약 2퍼센트 내려갔다면 바로 손절 
+//모든 비트코인 마켓 정보
 
 
 
 
 
-
-//[{"ticket":"test"},{"type":"ticker","codes":["KRW-BTC"]}]
-
-
-
-async function start() {
-    // 체결 서버 접속
-    tradeServerConnect()
-}
-
-start()
+//full account inquiry

@@ -10,9 +10,16 @@ const {
     secret_key,
     server_url
 } = require("../config/config");
+const request = require("request");
 
-function getOrderableInformationOpstions(market) {
+
+function getOrderableInformation(market) {
     //'KRW-BTC' default
+    
+    //주문 가능 정보
+    let orderableInformation;
+
+
     const body = {
         market: market
     }
@@ -32,7 +39,7 @@ function getOrderableInformationOpstions(market) {
 
     const token = sign(payload, secret_key)
 
-    return options = {
+    const options = {
         method: "GET",
         url: server_url + "/v1/orders/chance?" + query,
         headers: {
@@ -40,8 +47,28 @@ function getOrderableInformationOpstions(market) {
         },
         json: body
     }
+
+
+    return new Promise(resolve => {
+
+        request(options, (error, response, data) => {
+
+            if (error) throw new Error(error)
+            orderableInformation = data
+
+            resolve(orderableInformation)
+        });
+
+
+    }).then(function (result) {
+
+        return orderableInformation
+
+
+    })
+
 }
 
 
 
-module.exports = getOrderableInformationOpstions
+module.exports = getOrderableInformation
