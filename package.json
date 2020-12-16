@@ -19,8 +19,11 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
+    "node-telegram-bot-api": "^0.50.0",
     "querystring": "^0.2.0",
     "request": "^2.88.2",
+    "telegram-bot-api": "^2.0.1",
+    "urlencode": "^1.1.0",
     "uuid": "^8.3.2",
     "websocket": "^1.0.33",
     "ws": "^7.4.1"

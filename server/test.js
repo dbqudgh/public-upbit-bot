@@ -1,42 +1,46 @@
 const WebSocket = require('ws');
+const sendTelegramMessage = require("./models/modelsSendTelegramMessage")
+
 
 let trades = [];
 
 
 function tradeServerConnect(codes) {
-    
+
     var ws = new WebSocket('wss://api.upbit.com/websocket/v1');
-    
-    ws.on('open', ()=>{
+
+    ws.on('open', () => {
         console.log('trade websocket is connected');
         ws.send('[{"ticket":"test"},{"type":"ticker","codes":["KRW-BTC"]}]');
-    }) 
+    })
 
-    ws.on('close', ()=>{
+    ws.on('close', () => {
         console.log('trade websocket is closed');
         console.log('trade 재접속');
         tradeServerConnect(codes)
     })
 
-    ws.on('message', (data)=>{
+    ws.on('message', (data) => {
         try {
             const str = data.toString('utf-8')
-            
+
             const json = JSON.parse(str)
-						if(trades.length > 0) {  //기존데이터가 있다면
-							const newTradePrice =  json.trade_price;
-							const oldTradePrice =  trades[0].trade_price;
-							
-							const increase = (oldTradePrice-newTradePrice)/oldTradePrice;
-							
-							if(increase > 0.0001){
-								console.log("증가량:",increase)
-							}
+            if (trades.length > 0) { //기존데이터가 있다면
+                const newTradePrice = json.trade_price;
+                const oldTradePrice = trades[0].trade_price;
+
+                const increase = (oldTradePrice - newTradePrice) / oldTradePrice;
+
+                if (increase > 0.0001) {
+                    const textData = `증가량:${increase}`
+                    console.log(textData)
+                    sendTelegramMessage(textData)
+                }
                 // trades[0] 
-								// json
-								trades = [];
+                // json
+                trades = [];
             }
-						trades.push(json)
+            trades.push(json)
 
         } catch (e) {
             console.log(e)
