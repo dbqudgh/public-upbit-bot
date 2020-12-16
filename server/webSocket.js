@@ -36,7 +36,7 @@ function tradeServerConnect(codes, cb) {
 
                 const increase = (oldTradePrice - newTradePrice) / oldTradePrice;
                 
-                if (increase > 2) {
+                if (increase > 0.01) {
                     
                     const textData = `코인: ${parseData.code} 증가량: ${increase.toFixed(4)}%`
                     console.log(textData)
