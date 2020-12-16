@@ -3,13 +3,19 @@ const WebSocket = require('ws');
 
 let trades = [];
 
+
+
+
+const myMarketInfo = '[{"ticket":"test"},{"type":"ticker","codes":["KRW-BTC"]}]';
+
+
 function tradeServerConnect(codes) {
     
     var ws = new WebSocket('wss://api.upbit.com/websocket/v1');
     
     ws.on('open', ()=>{
         console.log('trade websocket is connected');
-        ws.send('[{"ticket":"test"},{"type":"ticker","codes":["KRW-BTC"]}]');
+        ws.send(myMarketInfo);
     }) 
 
     ws.on('close', ()=>{
@@ -24,13 +30,13 @@ function tradeServerConnect(codes) {
             
             const json = JSON.parse(str)
             if(trades.length > 0) {  //기존데이터가 있다면
-                
+                console.log(trades[0])
                 // trades[0] 
                 // json
             }
-            trades.push(json)
-            console.log(trades.length);
+            trades[0] = json;
 
+            // console.log(trades.length);
         } catch (e) {
             console.log(e)
         }
