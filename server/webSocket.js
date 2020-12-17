@@ -2,10 +2,8 @@ const WebSocket = require('ws');
 const sendTelegramMessage = require("./models/modelsSendTelegramMessage");
 const getAllKrwMarketList = require("./models/modelsGetListMarkets");
 
-
-
 let trades = {};
-
+let BYCOIN = false;
 
 function tradeServerConnect(codes, cb) {
 
@@ -34,14 +32,21 @@ function tradeServerConnect(codes, cb) {
                 const newTradePrice =  parseData.trade_price;
                 const oldTradePrice =trades[`${parseData.code}`].trade_price;
 
-                const increase = (oldTradePrice - newTradePrice) / oldTradePrice;
+                const increase = (oldTradePrice - newTradePrice) / oldTradePrice * 100;
                 
-                if (increase > 0.1) {
+                if (increase > 1 && BYCOIN === false) {
                     
-                    const textData = `코인: ${parseData.code} 증가량: ${increase.toFixed(4)}%`
+                    const textData = `코인: ${parseData.code} 증가량: ${increase.toFixed(4)}%
+                    링크:https://upbit.com/exchange?code=CRIX.UPBIT.${parseData.code}`
+                    
+                    BYCOIN = true;
+                    
                     console.log(textData)
-                    sendTelegramMessage(textData)                 
+                    sendTelegramMessage(textData)             
 
+                    
+
+                    //구매했다는 가상을 새우고 그 데이터가 변화했다면 ? 비교
                 }
             }
 
