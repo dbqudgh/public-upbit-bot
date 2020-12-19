@@ -54,13 +54,15 @@ function orderCoin(market, volume, price, side, cb) {
         if (error) {
 
             console.log(error)
-            cb(error)
+            cb(JSON.stringify(error))
 
         }else if (body.error) {
+
             console.log(body.error)
-            cb(body.error)
+            cb(JSON.stringify(body.error))
+
         }else{
-            cb(null,body)
+            cb(null,JSON.stringify(body))
         }
         // const state = body.state
         // const uuid = body.uuid

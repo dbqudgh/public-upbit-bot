@@ -44,31 +44,29 @@ function tradeServerConnect(codes, cb) {
 
 			if (BYCOIN && MY_ACCOUNT.market === marketName) { //내잔고랑 market 내임 있다면
 
-				const newPrice = parseData.trade_price;
+				const newTradePrice = parseData.trade_price;
 				const myPrice = MY_ACCOUNT.price;
 
 
-				const increase = getTheRateOfIncrease(newPrice, myPrice);
+				const increase = getTheRateOfIncrease(newTradePrice, myPrice);
 				let text;
 
 				increase > 0 ? text = "증가:" : text = "감소";
 
-				const volume = (PRICE / newPrice).toFixed(8)
-				const changePrice = (newPrice * PRICE).toFixed(1)
+				const volume = (PRICE / newTradePrice).toFixed(8)
+				const changePrice = (newTradePrice * PRICE).toFixed(1)
 
 				if (increase < -1 || increase > 1) {
+
 					orderCoin(marketName, volume, null, 'ask', (error, body) => {
 						if (error) {
 							sendTelegramMessage(`${error}`)
 						} else if (body) {
-							if (body.error) {
-								sendTelegramMessage(body.message)
-							} else {
-								sendTelegramMessage(`${text}:${changePrice-PRICE}`)
-								BYCOIN = false;
-							}
+							sendTelegramMessage(`${text}:${changePrice-PRICE}`)
+							BYCOIN = false;
 						}
 					})
+					
 				}
 
 			} else if (TRADS[`${marketName}`]) {
@@ -87,7 +85,7 @@ function tradeServerConnect(codes, cb) {
 
 						if (error) {
 
-							sendTelegramMessage(`${JSON.stringify(error)}`)
+							sendTelegramMessage(`${error}`)
 							BYCOIN = false;
 
 						} else if (body) {
@@ -101,9 +99,11 @@ function tradeServerConnect(codes, cb) {
 								const textData = `코인: ${marketName} 구매`
 
 								MY_ACCOUNT = {
+									
 									market: marketName,
 									price: newTradePrice
 								}
+
 								sendTelegramMessage(textData)
 
 								

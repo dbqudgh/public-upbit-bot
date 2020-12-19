@@ -16,7 +16,7 @@ async function main(){
   // console.log(orderableInformationBTC)
 
 
-  console.log(fullAccountInquiry[0])
+  console.log(orderableInformationBTC)
 
 
 }main()
