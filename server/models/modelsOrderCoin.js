@@ -52,13 +52,16 @@ function orderCoin(market, volume, price, side, cb) {
 
     request(options, (error, response, body) => {
         if (error) {
+
             console.log(error)
             cb(error)
-        }else if (body.error) {
-            cb(body.error)
-        }
 
-        cb(null,true)
+        }else if (body.error) {
+            console.log(body.error)
+            cb(body.error)
+        }else{
+            cb(null,body)
+        }
         // const state = body.state
         // const uuid = body.uuid
         // if (state === 'wait') {

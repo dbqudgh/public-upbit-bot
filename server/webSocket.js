@@ -6,7 +6,12 @@ const orderCoin = require("./models/modelsOrderCoin");
 
 // orderCoin(market,volume,price,side)
 let TRADS = {};
-let MY_ACCOUNT = {market:null};
+
+let MY_ACCOUNT = {
+	market: null
+};
+
+
 let BYCOIN = false;
 
 
@@ -52,12 +57,16 @@ function tradeServerConnect(codes, cb) {
 				const changePrice = (newPrice * PRICE).toFixed(1)
 
 				if (increase < -1 || increase > 1) {
-					orderCoin(marketName, volume, null, 'ask',(error,body)=>{
-						if(error){
+					orderCoin(marketName, volume, null, 'ask', (error, body) => {
+						if (error) {
 							sendTelegramMessage(`${error}`)
-						}else if(body){
-							sendTelegramMessage(`${text}:${changePrice-PRICE}`)
-							BYCOIN = false;
+						} else if (body) {
+							if (body.error) {
+								sendTelegramMessage(body.message)
+							} else {
+								sendTelegramMessage(`${text}:${changePrice-PRICE}`)
+								BYCOIN = false;
+							}
 						}
 					})
 				}
@@ -71,30 +80,43 @@ function tradeServerConnect(codes, cb) {
 				const volume = (PRICE / newTradePrice).toFixed(8);
 
 				//코인 구매 조건
-				if (increase > 0.4 && BYCOIN === false) {
+				if (increase > 1 && BYCOIN === false) {
 					BYCOIN = true;
 					// orderCoin(market,volume,price,side)
-					orderCoin(marketName, volume, newTradePrice, 'bid', (error,body) => {
+					orderCoin(marketName, volume, newTradePrice, 'bid', (error, body) => {
 
 						if (error) {
 
-							sendTelegramMessage(`${error}`)
+							sendTelegramMessage(`${JSON.stringify(error)}`)
 							BYCOIN = false;
 
-						} else if(body){
-							
-							const textData = `코인: ${marketName} 구매`
-							
-							MY_ACCOUNT = {
-								market: marketName,
-								price: newTradePrice
+						} else if (body) {
+
+							if (body.error) {
+
+								sendTelegramMessage(body.message)
+
+							} else {
+
+								const textData = `코인: ${marketName} 구매`
+
+								MY_ACCOUNT = {
+									market: marketName,
+									price: newTradePrice
+								}
+								sendTelegramMessage(textData)
+
+								
+								//구매했다는 가상을 새우고 그 데이터가 변화했다면 ? 비교	
+
 							}
 
-							sendTelegramMessage(textData)
-							//구매했다는 가상을 새우고 그 데이터가 변화했다면 ? 비교	
-						}else{
+
+						} else {
 							BYCOIN = false
 						}
+
+					
 					})
 				}
 
