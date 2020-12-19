@@ -54,12 +54,12 @@ function tradeServerConnect(codes, cb) {
                 increase > 0 ? text = "증가:" : text = "감소";
 
                 const volume = (PRICE / newTradePrice).toFixed(8)
-                const changePrice = (PRICE+increase*PRICE).toFixed(0)
+                const changePrice = (increase*PRICE)
 
                 console.log(text,increase,"%")
 
                 if (increase < -1 || increase > 0.3) {
-                    sendTelegramMessage(`이득본가격${changePrice}원`)
+                    sendTelegramMessage(`이득본가격:${changePrice}원`)
                     BYCOIN = false;
 
                     // orderCoin(marketName, volume, PRICE, 'ask', (error, body) => {
