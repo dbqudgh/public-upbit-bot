@@ -11,7 +11,7 @@ let MY_ACCOUNT = {
 };
 let BYCOIN = false;
 //거래할 자금 만원으로 테스트
-const PRICE = 10000;
+const PRICE = 5000;
 
 function tradeServerConnect(codes, cb) {
 
@@ -39,15 +39,16 @@ function tradeServerConnect(codes, cb) {
 
 			if (BYCOIN && MY_ACCOUNT.market === marketName) { //내잔고랑 market 내임 있다면
 
-				const newTradePrice = parseData.trade_price;
+				const newOpeningPrice = parseData.opening_price;
 				const myPrice = MY_ACCOUNT.price;
 
-				const increase = getTheRateOfIncrease(newTradePrice, myPrice);
+				const increase = getTheRateOfIncrease(newOpeningPrice, myPrice);
 				let text;
 
 				increase > 0 ? text = "증가:" : text = "감소";
 
-				const volume = (PRICE / newTradePrice).toFixed(8)
+				const volume = MY_ACCOUNT.volume;
+
 
 				console.log(`${text}${increase}`)
 
@@ -58,7 +59,7 @@ function tradeServerConnect(codes, cb) {
 						} else if (body) {
 
 							if (body.error) {
-
+								sendTelegramMessage(body.error)
 							} else {
 
 								const increasePrice = ((increase / 100) * PRICE).toFixed(0)
@@ -81,18 +82,18 @@ function tradeServerConnect(codes, cb) {
 
 			} else if (TRADS[`${marketName}`]) {
 
-				const newTradePrice = parseData.trade_price;
-				const oldTradePrice = TRADS[`${marketName}`].trade_price;
+				const newOpeningPrice = parseData.opening_price;
+				const oldOpeningPrice = TRADS[`${marketName}`].opening_price;
 
-				const increase = getTheRateOfIncrease(newTradePrice, oldTradePrice)
-				const volume = (PRICE / newTradePrice).toFixed(8);
+				const increase = getTheRateOfIncrease(newOpeningPrice, oldOpeningPrice)
+				const volume = (PRICE / newOpeningPrice).toFixed(8);
 
 				//코인 구매 조건
-				if ((increase > 4 ) && BYCOIN === false) {
+				if ((increase > 5 || (increase < 0.3 && increase > -1)) && BYCOIN === false) {
 
 					BYCOIN = true;
 					// orderCoin(market,volume,price,side)
-					orderCoin(marketName, null, PRICE, 'bid', (error, body) => {
+					orderCoin(marketName, volume, newOpeningPrice, 'bid', (error, body) => {
 						if (error) {
 							sendTelegramMessage(`${error}`)
 							BYCOIN = false;
@@ -110,8 +111,12 @@ function tradeServerConnect(codes, cb) {
 
 								MY_ACCOUNT = {
 									market: marketName,
-									price: newTradePrice
+									price: newOpeningPrice,
+									volume: body.volume
 								}
+
+								console.log(body)
+
 
 								sendTelegramMessage(textData)
 								//구매했다는 가상을 새우고 그 데이터가 변화했다면 ? 비교	

@@ -29,6 +29,7 @@ function orderCoin(market, volume, price, side, cb) {
 
 	}
 
+
 	const body = {
 		market: market,
 		side: side,
@@ -36,6 +37,16 @@ function orderCoin(market, volume, price, side, cb) {
 		price: price,
 		ord_type: ord_type
 	}
+
+	console.log(body)
+
+	// {
+	// 	market: 'KRW-BSV',
+	// 	side: 'bid',
+	// 	volume: null,
+	// 	price: 10000,
+	// 	ord_type: 'price'
+	// }
 
 	//8자리 까지
 
@@ -79,7 +90,7 @@ function orderCoin(market, volume, price, side, cb) {
 			cb(JSON.stringify(body.error))
 
 		} else {
-			cb(null, JSON.stringify(body))
+			cb(null, body)
 		}
 
 

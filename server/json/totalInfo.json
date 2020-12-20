@@ -35,8 +35,7 @@
         "acc_trade_price_24h": 168195121539.32013,
         "acc_trade_volume_24h": 7766.76379058,
         "stream_type": "REALTIME"
-    },
-    "KRW-ETH": {
+    },"KRW-ETH": {
         "type": "ticker",
         "code": "KRW-ETH",
         "opening_price": 639700,
