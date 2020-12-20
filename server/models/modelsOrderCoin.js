@@ -37,9 +37,7 @@ function orderCoin(market, volume, price, side, cb) {
 		price: price,
 		ord_type: ord_type
 	}
-
-	console.log(body)
-
+	
 	// {
 	// 	market: 'KRW-BSV',
 	// 	side: 'bid',
