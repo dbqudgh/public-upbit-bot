@@ -10,8 +10,8 @@ let MY_ACCOUNT = {
 	market: null
 };
 let BYCOIN = false;
-//거래할 자금 만원으로 테스트
-const PRICE = 5000;
+//거래할 자금 십만원으로 테스트
+const PRICE = 10000;
 
 function tradeServerConnect(codes, cb) {
 
@@ -51,7 +51,7 @@ function tradeServerConnect(codes, cb) {
 
 				console.log(`${text}${increase}`)
 
-				if (increase < -1 || increase > 0.3) {
+				if (increase < -0.4 || increase > 0.5) {
 
 					lndividualOrderLookup(MY_ACCOUNT.uuid, (error, body) => {
 
