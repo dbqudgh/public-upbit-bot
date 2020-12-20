@@ -61,7 +61,9 @@ function tradeServerConnect(codes, cb) {
 
 						} else if (body) {
 
-							const  volume = body.trades.volume
+							// console.log(body.trades)
+
+							const  volume = body.trades[0].volume
 
 							orderCoin(marketName, volume, null, 'ask', (error, body) => {
 							
