@@ -17,6 +17,7 @@ async function main(){
 
 
   console.log(orderableInformationBTC)
+  console.log(fullAccountInquiry)
 
 
 }main()
