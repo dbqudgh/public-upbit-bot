@@ -1,7 +1,7 @@
-// https://api.telegram.org/bot1465996451:AAGf6Y4hHifpo6mGWot4x_ibWDdpOxpXiG4/sendmessage?chat_id=1126066605&text=Message
+
 const request = require("request");
 const urlencode = require("urlencode");
-const indexUrl = `https://api.telegram.org/bot1465996451:AAGf6Y4hHifpo6mGWot4x_ibWDdpOxpXiG4/sendmessage?chat_id=1126066605&text=`
+const indexUrl = ``//내 탤래그램 아이디 값 넣어줘야함
 
 
 function sendTelegramMessage(MESSAGE) {
@@ -14,3 +14,5 @@ function sendTelegramMessage(MESSAGE) {
 }
 
 module.exports = sendTelegramMessage
+
+
